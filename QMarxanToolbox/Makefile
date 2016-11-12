@@ -36,7 +36,7 @@ PY_FILES = __init__.py marxantoolbox.py mtb_provider.py create_pulayer.py \
 	export_input.py calculations.py calc_raster.py \
 	export_features_vs_planningunits.py report_summary.py
 
-EXTRAS = metadata.txt 
+EXTRAS = metadata.txt qm_icon.png
 
 UI_FILES = 
 

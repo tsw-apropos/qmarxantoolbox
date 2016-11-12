@@ -101,6 +101,10 @@ class ExportFeatures(GeoAlgorithm):
         qmdFiles.sort()
         progress.setText('Writing file')
         # write spec.dat file
+        # rename existing spec.dat files
+        if os.path.exists(self.outFName):
+            nName = self.outFName + '.backup_%s' % datetime.datetime.now().isoformat()[:19].replace(':','').replace('-','')
+            os.rename(self.outFName,nName)
         header = 'id\tprop\ttarget\ttargetocc\tspf\tname%s' % nl
         f = open(self.outFName,'w')
         f.write(header)
