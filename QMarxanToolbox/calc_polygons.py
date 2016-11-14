@@ -43,6 +43,7 @@ from calculations import qmtCalc, qmtSpatial
 class CalculatePolygons(GeoAlgorithm):
 
     PU_LAYER = 'PU_LAYER'
+    ID_FIELD = 'ID_FIELD'
     POLYGON_LAYER = 'POLYGON_LAYER'
     METHOD = 'METHOD'
     DESTINATION = 'DESTINATION'
@@ -72,6 +73,8 @@ class CalculatePolygons(GeoAlgorithm):
         # It is a mandatory (not optional) one, hence the False argument
         self.addParameter(ParameterVector(self.PU_LAYER, self.tr('Planning Unit Layer'), \
             [ParameterVector.VECTOR_TYPE_POLYGON], False))
+        self.addParameter(ParameterTableField(self.ID_FIELD, self.tr('Planning Unit Id Field'), \
+            self.PU_LAYER,0,False))
         self.addParameter(ParameterVector(self.POLYGON_LAYER, self.tr('Polygon Source Layer'), \
             [ParameterVector.VECTOR_TYPE_POLYGON], False))
         self.addParameter(ParameterSelection(self.METHOD, self.tr('Calculation Method'), \
@@ -107,6 +110,7 @@ class CalculatePolygons(GeoAlgorithm):
         
         # get parameters
         self.puLayer = self.getParameterValue(self.PU_LAYER)
+        self.puidField = self.getParameterValue(self.ID_FIELD)
         self.polyLayer = self.getParameterValue(self.POLYGON_LAYER)
         self.calcField = self.getParameterValue(self.CALC_FIELD)
         self.methodIdx = self.getParameterValue(self.METHOD)
@@ -233,7 +237,7 @@ class CalculatePolygons(GeoAlgorithm):
             progress.setText('Intersecting Layers')
             progMin = 10
             progMax = 70
-            self.spatialTools.intersectAndMeasureLayers(progress, progMin, progMax, self.polyL, self.puL, tfn, 'POLYGON', self.encoding, self.crs, self.calcField)
+            self.spatialTools.intersectAndMeasureLayers(progress, progMin, progMax, self.polyL, self.puL, tfn, 'POLYGON', self.encoding, self.crs, self.puidField, self.calcField)
             # measure
             progress.setText('Measuring Areas')
             progMin = 70
@@ -248,10 +252,10 @@ class CalculatePolygons(GeoAlgorithm):
         # updates
         if self.destIdx == 0:
             #self.calcTools.puLayerSingleUpdate(results,self.puL,'puid',self.fieldName,self.method,self.intersectOp)
-            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp)
+            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp)
         else:
             #self.calcTools.puLayerMultiUpdate(results,self.puL,'puid',self.fieldName,self.method,self.intersectOp, uniqueValues)
-            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp, uniqueValues)
+            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp, uniqueValues)
 
 
 

@@ -331,17 +331,80 @@ class qmtCalc:
             lastPct = progPct
             progRange = progMax - progMin
             featCnt = len(results)
-            for key, value in results.iteritems():
-                updateVal = self.valuesSummarizeSingle(value,calcType,intersectOp)
+            # 
+            # old method didn't sort - made checks difficult
+            #
+            #for key, value in results.iteritems():
+                #updateVal = self.valuesSummarizeSingle(value,calcType,intersectOp)
+                #if updateVal <> 0.0:
+                    #f.write('%d,%f\n' % (key,updateVal))
+                #x += 1
+                #progPct = ((float(x) / float(featCnt) * 100) * (progRange/100.0)) + progMin
+                #if int(progPct) > lastPct:
+                    #progress.setPercentage(progPct)
+                    #lastPct = progPct
+            # 
+            # new method sorts before writing
+            #        
+            resList = results.items()
+            resList.sort()
+            for rec in resList:
+                updateVal = self.valuesSummarizeSingle(rec[1],calcType,intersectOp)
                 if updateVal <> 0.0:
-                    f.write('%d,%f\n' % (key,updateVal))
+                    f.write('%d,%f\n' % (rec[0],updateVal))
                 x += 1
                 progPct = ((float(x) / float(featCnt) * 100) * (progRange/100.0)) + progMin
                 if int(progPct) > lastPct:
                     progress.setPercentage(progPct)
                     lastPct = progPct
             f.close()
+            
+    #
+    # table file output
+    #
+    def fileTableOutput(self,progress,progMin,progMax,puLyr,idField,calcField,destName):
 
+        # confirm it is valid
+        if puLyr.isValid():
+            # get reference information
+            fields  = puLyr.dataProvider().fields()
+            puidIdx = fields.indexFromName(idField)
+            calcIdx = fields.indexFromName(calcField)
+            # prepare to track progress
+            x = 0
+            progPct = progMin
+            lastPct = progPct
+            progRange = (progMax/2.0) - progMin
+            featCnt = puLyr.featureCount()
+            results = []
+            # get iterator
+            featIter = puLyr.getFeatures(QgsFeatureRequest().setFlags(QgsFeatureRequest.NoGeometry))
+            for feat in featIter:
+                attr = feat.attributes()
+                if float(attr[calcIdx]) > 0.0:
+                    results.append([int(attr[puidIdx]),float(attr[calcIdx])])
+                x += 1
+                progPct = ((float(x) / float(featCnt) * 100) * (progRange/100.0)) + progMin
+                if int(progPct) > lastPct:
+                    progress.setPercentage(progPct)
+                    lastPct = progPct
+            # sort
+            results.sort()
+            # prepare to write output
+            fName = destName + '.qmd'
+            f = open(fName,'w')
+            f.write('puid,amount\n')
+            x = 0
+            progRange = progMax - lastPct
+            for rec in results:
+                f.write('%d,%f\n' % (rec[0],rec[1]))
+                x += 1
+                progPct = ((float(x) / float(featCnt) * 100) * (progRange/100.0)) + progMin
+                if int(progPct) > lastPct:
+                    progress.setPercentage(progPct)
+                    lastPct = progPct
+            f.close()
+            
     #
     # multi file output
     #
@@ -374,6 +437,8 @@ class qmtCalc:
                 if int(progPct) > lastPct:
                     progress.setPercentage(progPct)
                     lastPct = progPct
+
+
     #
     # single field update pu layer
     #
@@ -623,7 +688,7 @@ class qmtSpatial:
     #
     # build squares
     #
-    def buildSquares(self,progress,progMin,progMax,makeTemp,bbox,outFName,encoding,crs,puSideLength,tempPrefix):
+    def buildSquares(self,progress,progMin,progMax,makeTemp,bbox,outFName,encoding,crs,puSideLength,tempPrefix,puidFieldName):
 
         # place squares from top left corner
         xMin = bbox[0]
@@ -644,7 +709,7 @@ class qmtSpatial:
             fName = outFName
             sideLen = puSideLength
         fields = QgsFields()
-        fields.append(QgsField("puid", QtCore.QVariant.Int))
+        fields.append(QgsField(puidFieldName, QtCore.QVariant.Int))
         fields.append(QgsField("pu_status", QtCore.QVariant.Int))
         fields.append(QgsField("bnd_cost", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("area", QtCore.QVariant.Double, "real", 19, 10))
@@ -690,10 +755,10 @@ class qmtSpatial:
     #
     # build hexagons
     #
-    def buildHexagons(self,progress,progMin,progMax,bbox,outFName,encoding,crs,puSideLength):
+    def buildHexagons(self,progress,progMin,progMax,bbox,outFName,encoding,crs,puSideLength,puidFieldName):
 
         fields = QgsFields()
-        fields.append(QgsField("puid", QtCore.QVariant.Int))
+        fields.append(QgsField(puidFieldName, QtCore.QVariant.Int))
         fields.append(QgsField("pu_status", QtCore.QVariant.Int))
         fields.append(QgsField("bnd_cost", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("area", QtCore.QVariant.Double, "real", 19, 10))
@@ -830,7 +895,7 @@ class qmtSpatial:
     # intersect layers
     # modified code Intersection.py in ftools by Victor Olaya
     #
-    def intersectLayers(self,progress,progMin,progMax,aLayer,bLayer,tfn,geomType,encoding,crs,calcFieldName):
+    def intersectLayers(self,progress,progMin,progMax,aLayer,bLayer,tfn,geomType,encoding,crs,puidFieldName,calcFieldName):
 
         # create fields and variables to hold information
         fields = QgsFields()
@@ -847,7 +912,7 @@ class qmtSpatial:
         outFeat = QgsFeature()
         index = vector.spatialindex(aLayer)
         bFeatures = vector.features(bLayer)
-        idIdx = bLayer.dataProvider().fields().indexFromName('puid')
+        idIdx = bLayer.dataProvider().fields().indexFromName(puidFieldName)
         if calcFieldName <> '':
             calcIdx = aLayer.dataProvider().fields().indexFromName(calcFieldName)
         else:
@@ -901,7 +966,7 @@ class qmtSpatial:
     # intersect layers
     # modified code Intersection.py in ftools by Victor Olaya
     #
-    def intersectAndMeasureLayers(self,progress,progMin,progMax,aLayer,bLayer,tfn,geomType,encoding,crs,calcFieldName):
+    def intersectAndMeasureLayers(self,progress,progMin,progMax,aLayer,bLayer,tfn,geomType,encoding,crs,puidFieldName,calcFieldName):
 
         # create fields and variables to hold information
         #fields = QgsFields()
@@ -920,7 +985,7 @@ class qmtSpatial:
         outFeat = QgsFeature()
         index = vector.spatialindex(aLayer)
         bFeatures = vector.features(bLayer)
-        idIdx = bLayer.dataProvider().fields().indexFromName('puid')
+        idIdx = bLayer.dataProvider().fields().indexFromName(puidFieldName)
         if calcFieldName <> '':
             calcIdx = aLayer.dataProvider().fields().indexFromName(calcFieldName)
         else:
@@ -1041,14 +1106,14 @@ class qmtSpatial:
     #
     # renumber PUs
     #
-    def reNumberPUs(self,progress,progMin,progMax,outFName):
+    def reNumberPUs(self,progress,progMin,progMax,outFName,puidFieldName):
 
         # open layer
         gridLayer = QgsVectorLayer(outFName, 'grid', 'ogr')
         # confirm it is valid
         if gridLayer.isValid():
             fields = gridLayer.dataProvider().fields()
-            idx = fields.indexFromName('puid')
+            idx = fields.indexFromName(puidFieldName)
             total = gridLayer.featureCount()
             cnter = 0
             progPct = progMin

@@ -42,6 +42,7 @@ from calculations import qmtCalc, qmtSpatial
 class CalculateRaster(GeoAlgorithm):
 
     PU_LAYER = 'PU_LAYER'
+    ID_FIELD = 'ID_FIELD'
     RASTER_LAYER = 'RASTER_LAYER'
     METHOD = 'METHOD'
     DESTINATION = 'DESTINATION'
@@ -68,6 +69,8 @@ class CalculateRaster(GeoAlgorithm):
         # It is a mandatory (not optional) one, hence the False argument
         self.addParameter(ParameterVector(self.PU_LAYER, self.tr('Planning Unit Layer'), \
             [ParameterVector.VECTOR_TYPE_POLYGON], False))
+        self.addParameter(ParameterTableField(self.ID_FIELD, self.tr('Planning Unit Id Field'), \
+            self.PU_LAYER,0,False))
         self.addParameter(ParameterRaster(self.RASTER_LAYER, self.tr('Raster Source Layer'), \
             False))
         self.addParameter(ParameterSelection(self.METHOD, self.tr('Calculation Method'), \
@@ -95,6 +98,7 @@ class CalculateRaster(GeoAlgorithm):
         
         # get parameters
         self.puLayer = self.getParameterValue(self.PU_LAYER)
+        self.puidField = self.getParameterValue(self.ID_FIELD)
         self.rstLayer = self.getParameterValue(self.RASTER_LAYER)
         #self.calcField = self.getParameterValue(self.CALC_FIELD)
         self.methodIdx = self.getParameterValue(self.METHOD)
@@ -195,8 +199,8 @@ class CalculateRaster(GeoAlgorithm):
         progMax = 99
         ofn = os.path.join(self.outDir,self.fieldName)
         if self.destIdx == 0:
-            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp)
+            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp)
         else:
-            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp, uniqueValues)
+            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp, uniqueValues)
 
 

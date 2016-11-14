@@ -37,6 +37,7 @@ from calc_points import CalculatePoints
 from calc_lines import CalculateLines
 from calc_polygons import CalculatePolygons
 from calc_raster import CalculateRaster
+from calc_table import CalculateTable
 
 from export_input import ExportInput
 from export_boundary import ExportBoundary
@@ -56,6 +57,7 @@ class QMarxanToolboxProvider(AlgorithmProvider):
             CalculateLines(),
             CalculatePolygons(),
             CalculateRaster(),
+            CalculateTable(),
             ExportInput(),
             ExportBoundary(),
             ExportPlanningUnits(),

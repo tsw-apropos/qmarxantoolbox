@@ -203,7 +203,7 @@ class ReportSummary(GeoAlgorithm):
         nl = os.linesep
         progress.setText('Creating Report')
         f = open(self.reportFile,'w')
-        f.write('featureId,featureName,featureCount,puCount,occurrencePercent,featureSum %s' % nl)
+        f.write('featureId,featureName,featureCount,selectedPuCount,occurrencePercent,featureSum %s' % nl)
         x = 0
         fCount = len(summaryList)
         progMin = 90

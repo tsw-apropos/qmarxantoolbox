@@ -93,6 +93,7 @@ class CreatePULayer(GeoAlgorithm):
         self.puShapeIdx = self.getParameterValue(self.SHAPE)
         self.puSizeTypeIdx = self.getParameterValue(self.SIZETYPE)
         self.outFName = self.getParameterValue(self.OUTPUT)
+        self.puidFieldName = 'puid'
         fn, fext = os.path.splitext(self.outFName)
         progress.setPercentage(0)
         if fext.lower() <> '.shp':
@@ -117,7 +118,7 @@ class CreatePULayer(GeoAlgorithm):
             else:
                 self.puSideLength = self.getParameterValue(self.SIZE)
                 self.puArea = self.gridTools.calcSquareArea(self.puSideLength)
-            self.spatialTools.buildSquares(progress,progMin,progMax,False,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength,'')
+            self.spatialTools.buildSquares(progress,progMin,progMax,False,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength,'',self.puidFieldName)
         else:
             if self.puSizeTypeIdx == 0:
                 self.puArea = self.getParameterValue(self.SIZE)
@@ -125,7 +126,7 @@ class CreatePULayer(GeoAlgorithm):
             else:
                 self.puSideLength = self.getParameterValue(self.SIZE)
                 self.puArea = self.gridTools.calcHexagonArea(self.puSideLength)
-            self.spatialTools.buildHexagons(progress,progMin,progMax,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength)
+            self.spatialTools.buildHexagons(progress,progMin,progMax,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength,self.puidFieldName)
         # clip grid if require
         if self.clipLayer <> None:
             progress.setText('Starting clipping process...')
@@ -143,14 +144,14 @@ class CreatePULayer(GeoAlgorithm):
             progress.setText('Making temporary grid...')
             progMin = 25
             progMax = 30
-            self.spatialTools.buildSquares(progress,progMin,progMax,True,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength,self.tempPrefix)
+            self.spatialTools.buildSquares(progress,progMin,progMax,True,self.bbox,self.outFName,self.encoding,self.crs,self.puSideLength,self.tempPrefix,self.puidFieldName)
             # intersect with single clip layer with temporary grid
             progMin = 30
             progMax = 35
             progress.setText('Intersecting temporary grid with single clip layer...')
             grdLyr = QgsVectorLayer(tgn, 'tempgrid', 'ogr')
             sngLyr = QgsVectorLayer(tsn, 'tempsingle', 'ogr')
-            self.spatialTools.intersectLayers(progress,progMin,progMax,sngLyr,grdLyr,tsgn,'POLYGON',self.encoding,self.crs,None)
+            self.spatialTools.intersectLayers(progress,progMin,progMax,sngLyr,grdLyr,tsgn,'POLYGON',self.encoding,self.crs,self.puidFieldName,None)
             grdLyr = None
             self.spatialTools.removeTempFile(tgn)
             sngLyr = None
@@ -161,7 +162,7 @@ class CreatePULayer(GeoAlgorithm):
             progMax = 60
             puLyr = QgsVectorLayer(self.outFName, 'pu', 'ogr')
             tsgLyr = QgsVectorLayer(tsgn, 'tempsinglegrid', 'ogr')
-            self.spatialTools.intersectLayers(progress,progMin,progMax,tsgLyr,puLyr,tin,'POLYGON',self.encoding,self.crs,None)
+            self.spatialTools.intersectLayers(progress,progMin,progMax,tsgLyr,puLyr,tin,'POLYGON',self.encoding,self.crs,self.puidFieldName,None)
             puLyr = None
             tsgLyr = None
             self.spatialTools.removeTempFile(tsgn)
@@ -183,5 +184,5 @@ class CreatePULayer(GeoAlgorithm):
             progMin = 85
             progMax = 95
             progress.setText('Renumbering PUs...')
-            self.spatialTools.reNumberPUs(progress,progMin,progMax,self.outFName)
+            self.spatialTools.reNumberPUs(progress,progMin,progMax,self.outFName,self.puidFieldName)
 

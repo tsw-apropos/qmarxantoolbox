@@ -42,6 +42,7 @@ from calculations import qmtCalc, qmtSpatial
 class CalculateLines(GeoAlgorithm):
 
     PU_LAYER = 'PU_LAYER'
+    ID_FIELD = 'ID_FIELD'
     LINE_LAYER = 'LINE_LAYER'
     METHOD = 'METHOD'
     DESTINATION = 'DESTINATION'
@@ -69,6 +70,8 @@ class CalculateLines(GeoAlgorithm):
         # It is a mandatory (not optional) one, hence the False argument
         self.addParameter(ParameterVector(self.PU_LAYER, self.tr('Planning Unit Layer'), \
             [ParameterVector.VECTOR_TYPE_POLYGON], False))
+        self.addParameter(ParameterTableField(self.ID_FIELD, self.tr('Planning Unit Id Field'), \
+            self.PU_LAYER,0,False))
         self.addParameter(ParameterVector(self.LINE_LAYER, self.tr('Line Source Layer'), \
             [ParameterVector.VECTOR_TYPE_LINE], False))
         self.addParameter(ParameterSelection(self.METHOD, self.tr('Calculation Method'), \
@@ -98,6 +101,7 @@ class CalculateLines(GeoAlgorithm):
         
         # get parameters
         self.puLayer = self.getParameterValue(self.PU_LAYER)
+        self.puidField = self.getParameterValue(self.ID_FIELD)
         self.lineLayer = self.getParameterValue(self.LINE_LAYER)
         self.calcField = self.getParameterValue(self.CALC_FIELD)
         self.methodIdx = self.getParameterValue(self.METHOD)
@@ -191,7 +195,7 @@ class CalculateLines(GeoAlgorithm):
         progress.setText('Intersecting Layers')
         progMin = 10
         progMax = 70
-        self.spatialTools.intersectLayers(progress, progMin, progMax, self.lineL, self.puL, tfn, 'LINE', self.encoding, self.crs, self.calcField)
+        self.spatialTools.intersectLayers(progress, progMin, progMax, self.lineL, self.puL, tfn, 'LINE', self.encoding, self.crs, self.puidField, self.calcField)
         # measure
         progress.setText('Measuring Lines')
         progMin = 70
@@ -206,10 +210,10 @@ class CalculateLines(GeoAlgorithm):
         # updates
         if self.destIdx == 0:
             #self.calcTools.puLayerSingleUpdate(results,self.puL,'puid',self.fieldName,self.method,self.intersectOp)
-            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp)
+            self.calcTools.fileSingleOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp)
         else:
             #self.calcTools.puLayerMultiUpdate(results,self.puL,'puid',self.fieldName,self.method,self.intersectOp, uniqueValues)
-            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,'puid',ofn,self.method,self.intersectOp, uniqueValues)
+            self.calcTools.fileMultiOutput(progress,progMin,progMax,results,self.puL,self.puidField,ofn,self.method,self.intersectOp, uniqueValues)
 
 
 
