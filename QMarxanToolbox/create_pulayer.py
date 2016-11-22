@@ -72,16 +72,17 @@ class CreatePULayer(GeoAlgorithm):
         self.addParameter(ParameterExtent(self.EXTENT, self.tr('Grid extent')))
         self.addParameter(ParameterCrs(self.CRS, 'Grid CRS'))
         self.addParameter(ParameterSelection(self.SHAPE, self.tr('Output polygons shape'), \
-            ["hexagon","square"], False))
+            ["hexagon","square"]))
         self.addParameter(ParameterSelection(self.SIZETYPE, self.tr('Define polygon size by'), \
-            ["area","side length"], False))
+            ["area","side length"]))
         self.addParameter(ParameterNumber(self.SIZE, \
             self.tr('Enter polygon size value (projection units or projection units squared)'), \
-            minValue=1.0, default=1000000.0, optional=False))
-        self.addParameter(ParameterVector(self.CLIP, self.tr('Clip new plannning unit layer to this layer'), \
+            1.0, None, 1000000.0))
+        self.addParameter(ParameterVector(self.CLIP, \
+            self.tr('Clip new plannning unit layer to this layer'), \
             [ParameterVector.VECTOR_TYPE_ANY], True))
         self.addParameter(ParameterFile(self.OUTPUT, self.tr('Plannning unit layer name'), \
-            isFolder=False, optional=False, ext='shp'))
+            False, False, 'shp'))
 
     def processAlgorithm(self, progress):
         """Here is where the processing itself takes place."""

@@ -11,7 +11,7 @@
 name=QMarxan Toolbox
 qgisMinimumVersion=2.14
 description=Marxan Processing tools for QGIS
-version=0.3
+version=0.3.1
 author=Apropos Information Systems Inc
 email=tsw@aproposinfosytems.com
 about=The QMarxan Toolbox is a replacment for QMarxanZ. The QMarxan Toolbox provides tools within the QGIS processing framework to prepare data and create input files for Marxan. 
@@ -23,7 +23,7 @@ repository=https://github.com/tsw-apropos/qmarxantoolbox
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Added planning unit id field option to calculation tools. Added calculate from table tool to extract data in a shapefile.
+changelog=Minor fix to spec.dat and pu.dat outputs. 
 
 # Tags are comma separated with spaces allowed
 tags=Marxan

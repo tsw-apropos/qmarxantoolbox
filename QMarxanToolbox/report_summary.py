@@ -65,7 +65,7 @@ class ReportSummary(GeoAlgorithm):
         self.addParameter(ParameterFile(self.IN_DIR,self.tr('Marxan Input Folder'), \
             True, False))
         self.addParameter(ParameterFile(self.REPORT_FILE,self.tr('Report Output File'), \
-            isFolder=False, optional=False, ext='csv'))
+            False, False, 'csv'))
         
     def checkParameterValuesBeforeExecuting(self):
         """If there is any check to do before launching the execution

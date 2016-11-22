@@ -90,7 +90,7 @@ class CalculatePolygons(GeoAlgorithm):
             ["for large files only","always","never"], False))
         self.addParameter(ParameterNumber(self.PIXEL_SIZE, \
             self.tr('Set pixel size for raster calculations (in projection units)'), \
-            minValue=1.0, maxValue=10000.0, default = 500.0, optional=True))
+            1.0, 10000.0, 500.0, True))
         self.addParameter(ParameterFile(self.OUT_DIR,self.tr('Output Directory'), \
             True, False))
         self.addParameter(ParameterString(self.FLD_PREFIX, self.tr('File Name or Prefix'), \

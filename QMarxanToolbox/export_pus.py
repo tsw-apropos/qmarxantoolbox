@@ -65,7 +65,7 @@ class ExportPlanningUnits(GeoAlgorithm):
         self.addParameter(ParameterTableField(self.PU_FIELD, self.tr('Planning Unit Id Field'), \
             self.PU_LAYER,0,False))
         self.addParameter(ParameterTableField(self.STAT_FIELD, self.tr('Planning Unit Status Field'), \
-            self.STAT_FIELD,0,False))
+            self.PU_LAYER,0,False))
         self.addParameter(ParameterTableField(self.COST_FIELD, self.tr('Planning Unit Cost Field'), \
             self.PU_LAYER,0,False))
         self.addParameter(ParameterFile(self.OUT_DIR,self.tr('Folder for pu.dat file'), \

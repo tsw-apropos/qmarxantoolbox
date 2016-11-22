@@ -132,7 +132,7 @@ class ExportBoundary(GeoAlgorithm):
         self.addParameter(ParameterSelection(self.EDGE_METHOD, self.tr('Value of boundary length for planning units on edge should be'), \
             ["full","half","zero"], False))
         self.addParameter(ParameterSelection(self.TOL, self.tr('Export precision rounding (in map units)'), \
-            options=["100","10","1","0.1","0.01","0.001","0.0001","0.00001"], default=2, optional=False))
+            ["100","10","1","0.1","0.01","0.001","0.0001","0.00001"], 2, False, False))
         self.addParameter(ParameterFile(self.OUT_DIR,self.tr('Folder for bound.dat file'), \
             True, False))
 
