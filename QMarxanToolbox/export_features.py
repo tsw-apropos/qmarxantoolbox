@@ -35,7 +35,6 @@ import os, datetime
 
 from processing.core.GeoAlgorithm import GeoAlgorithm
 from processing.core.parameters import ParameterFile
-from processing.core.outputs import OutputVector
 from processing.tools import dataobjects, vector
 
 class ExportFeatures(GeoAlgorithm):
@@ -78,7 +77,6 @@ class ExportFeatures(GeoAlgorithm):
         """Here is where the processing itself takes place."""
         # read directory file list
         progress.setText('Processing file list')
-        nl = os.linesep
         fileList = os.listdir(self.srcDir)
         fCount = len(fileList)
         qmdFiles = []
@@ -105,7 +103,7 @@ class ExportFeatures(GeoAlgorithm):
         if os.path.exists(self.outFName):
             nName = self.outFName + '.backup_%s' % datetime.datetime.now().isoformat()[:19].replace(':','').replace('-','')
             os.rename(self.outFName,nName)
-        header = 'id\tprop\ttarget\ttargetocc\tspf\tname%s' % nl
+        header = 'id\tprop\ttarget\ttargetocc\tspf\tname\n'
         f = open(self.outFName,'w')
         f.write(header)
         x = 0
@@ -120,5 +118,5 @@ class ExportFeatures(GeoAlgorithm):
             if int(progPct) > lastPct:
                 progress.setPercentage(progPct)
                 lastPct = progPct
-            f.write('%d\t0.0\t0.0\t0\t1.0\t%s%s' % (x,os.path.splitext(rec)[0],nl))
+            f.write('%d\t0.0\t0.0\t0\t1.0\t%s\n' % (x,os.path.splitext(rec)[0]))
         f.close()

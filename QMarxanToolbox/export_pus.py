@@ -36,7 +36,6 @@ from qgis.core import *
 from processing.core.GeoAlgorithm import GeoAlgorithm
 from processing.core.parameters import ParameterVector, ParameterFile,\
     ParameterTableField
-from processing.core.outputs import OutputVector
 from processing.tools import dataobjects, vector
 from processing.core.ProcessingLog import ProcessingLog
 from processing.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
@@ -105,7 +104,6 @@ class ExportPlanningUnits(GeoAlgorithm):
                 
     def createPUFile(self, progress):
         
-        nl = os.linesep
         #
         # Step 1 - pull data from shape file
         #
@@ -148,7 +146,7 @@ class ExportPlanningUnits(GeoAlgorithm):
         progress.setText('Writing File')
         #QgsMessageLog.logMessage('writing file')
         tmpf = file(self.outFName, 'w')
-        tmpf.write("id,cost,status%s" % nl)
+        tmpf.write("id,cost,status\n")
         x = 0
         progMin = 50
         progMax = 99
@@ -161,7 +159,7 @@ class ExportPlanningUnits(GeoAlgorithm):
             if int(progPct) > lastPct:
                 progress.setPercentage(progPct)
                 lastPct = progPct
-            outText = '%d,%f,%d%s' % (row[0],row[1],row[2],nl)
+            outText = '%d,%f,%d\n' % (row[0],row[1],row[2])
             tmpf.write(outText)
         tmpf.close()
         return(0,'Export of PU file successful')

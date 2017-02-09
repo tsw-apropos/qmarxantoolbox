@@ -35,7 +35,6 @@ import os, numpy, csv
 
 from processing.core.GeoAlgorithm import GeoAlgorithm
 from processing.core.parameters import ParameterFile
-from processing.core.outputs import OutputVector
 from processing.tools import dataobjects, vector
 from processing.core.ProcessingLog import ProcessingLog
 from processing.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
@@ -80,7 +79,6 @@ class ExportFeaturesVsPlanningUnits(GeoAlgorithm):
     def processAlgorithm(self, progress):
         """Here is where the processing itself takes place."""
         # read directory file list
-        nl = os.linesep
         progPct = 0
         progress.setText('Checking for spec.dat file')
         progress.setPercentage(progPct)
@@ -166,7 +164,7 @@ class ExportFeaturesVsPlanningUnits(GeoAlgorithm):
         # write results
         progress.setText('Writing puvsp.dat')
         puf = file(self.outFName1, 'w')
-        puf.write("species\tpu\tamount%s" % nl)
+        puf.write("species\tpu\tamount\n")
         x = 0
         fCount = len(sList)
         progMin = 55
@@ -180,14 +178,14 @@ class ExportFeaturesVsPlanningUnits(GeoAlgorithm):
             if int(progPct) > lastPct:
                 progress.setPercentage(progPct)
                 lastPct = progPct
-            puf.write('%d\t%d\t%f%s' % (rec[0],rec[1],rec[2],nl))
+            puf.write('%d\t%d\t%f\n' % (rec[0],rec[1],rec[2]))
         puf.close()
         # create puvsp_sporder order
         sList = list(numpy.sort(npArray,order=['species','pu']))
         # write results
         progress.setText('Writing puvsp_sporder.dat')
         spf = file(self.outFName2, 'w')
-        spf.write("species\tpu\tamount%s" % nl)
+        spf.write("species\tpu\tamount\n")
         x = 0
         fCount = len(sList)
         progMin = 85
@@ -201,5 +199,5 @@ class ExportFeaturesVsPlanningUnits(GeoAlgorithm):
             if int(progPct) > lastPct:
                 progress.setPercentage(progPct)
                 lastPct = progPct
-            spf.write('%d\t%d\t%f%s' % (rec[0],rec[1],rec[2],nl))
+            spf.write('%d\t%d\t%f\n' % (rec[0],rec[1],rec[2]))
         spf.close()

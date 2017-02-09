@@ -35,7 +35,7 @@ import os, sys, csv
 
 from processing.core.GeoAlgorithm import GeoAlgorithm
 from processing.core.parameters import ParameterVector, ParameterFile, ParameterTableField
-from processing.core.outputs import OutputVector
+from processing.core.outputs import OutputFile
 from processing.tools import dataobjects, vector
 from processing.core.ProcessingLog import ProcessingLog
 from processing.core.GeoAlgorithmExecutionException import GeoAlgorithmExecutionException
@@ -64,8 +64,7 @@ class ReportSummary(GeoAlgorithm):
             self.PU_LAYER,0,False))
         self.addParameter(ParameterFile(self.IN_DIR,self.tr('Marxan Input Folder'), \
             True, False))
-        self.addParameter(ParameterFile(self.REPORT_FILE,self.tr('Report Output File'), \
-            False, False, 'csv'))
+        self.addOutput(OutputFile(self.REPORT_FILE,self.tr('Report Output File')))
         
     def checkParameterValuesBeforeExecuting(self):
         """If there is any check to do before launching the execution
@@ -83,7 +82,7 @@ class ReportSummary(GeoAlgorithm):
         self.puLayer = self.getParameterValue(self.PU_LAYER)
         self.puField = self.getParameterValue(self.PU_FIELD)
         self.inDir = self.getParameterValue(self.IN_DIR)
-        self.reportFile = self.getParameterValue(self.REPORT_FILE)
+        self.reportFile = self.getOutputValue(self.REPORT_FILE)
         
         return result
 
@@ -200,10 +199,9 @@ class ReportSummary(GeoAlgorithm):
         summaryList = [[int(key),value[0],value[1]] for key, value in featSummary.iteritems()]
         summaryList.sort()
         # write report
-        nl = os.linesep
         progress.setText('Creating Report')
         f = open(self.reportFile,'w')
-        f.write('featureId,featureName,featureCount,selectedPuCount,occurrencePercent,featureSum %s' % nl)
+        f.write('featureId,featureName,featureCount,selectedPuCount,occurrencePercent,featureSum\n')
         x = 0
         fCount = len(summaryList)
         progMin = 90
@@ -217,5 +215,5 @@ class ReportSummary(GeoAlgorithm):
             if int(progPct) > lastPct:
                 progress.setPercentage(progPct)
                 lastPct = progPct
-            f.write('%d,%s,%d,%d,%f,%f %s' % (rec[0],specRecs[rec[0]],rec[1],puCount,float(rec[1])/float(puCount)*100,rec[2],nl) )
+            f.write('%d,%s,%d,%d,%f,%f\n' % (rec[0],specRecs[rec[0]],rec[1],puCount,float(rec[1])/float(puCount)*100,rec[2]))
         f.close()

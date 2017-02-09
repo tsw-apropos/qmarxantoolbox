@@ -81,8 +81,7 @@ class CreatePULayer(GeoAlgorithm):
         self.addParameter(ParameterVector(self.CLIP, \
             self.tr('Clip new plannning unit layer to this layer'), \
             [ParameterVector.VECTOR_TYPE_ANY], True))
-        self.addParameter(ParameterFile(self.OUTPUT, self.tr('Plannning unit layer name'), \
-            False, False, 'shp'))
+        self.addOutput(OutputVector(self.OUTPUT,self.tr('Plannning unit layer name')))
 
     def processAlgorithm(self, progress):
         """Here is where the processing itself takes place."""
@@ -93,7 +92,7 @@ class CreatePULayer(GeoAlgorithm):
         self.crs = QgsCoordinateReferenceSystem(self.getParameterValue(self.CRS))
         self.puShapeIdx = self.getParameterValue(self.SHAPE)
         self.puSizeTypeIdx = self.getParameterValue(self.SIZETYPE)
-        self.outFName = self.getParameterValue(self.OUTPUT)
+        self.outFName = self.getOutputValue(self.OUTPUT)
         self.puidFieldName = 'puid'
         fn, fext = os.path.splitext(self.outFName)
         progress.setPercentage(0)

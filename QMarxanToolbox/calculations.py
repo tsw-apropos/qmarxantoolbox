@@ -709,8 +709,8 @@ class qmtSpatial:
             fName = outFName
             sideLen = puSideLength
         fields = QgsFields()
-        fields.append(QgsField(puidFieldName, QtCore.QVariant.Int))
-        fields.append(QgsField("pu_status", QtCore.QVariant.Int))
+        fields.append(QgsField(puidFieldName, QtCore.QVariant.Double, "real", 19, 0))
+        fields.append(QgsField("pu_status", QtCore.QVariant.Double, "real", 19, 0))
         fields.append(QgsField("bnd_cost", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("area", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("perimeter", QtCore.QVariant.Double, "real", 19, 10))
@@ -758,8 +758,8 @@ class qmtSpatial:
     def buildHexagons(self,progress,progMin,progMax,bbox,outFName,encoding,crs,puSideLength,puidFieldName):
 
         fields = QgsFields()
-        fields.append(QgsField(puidFieldName, QtCore.QVariant.Int))
-        fields.append(QgsField("pu_status", QtCore.QVariant.Int))
+        fields.append(QgsField(puidFieldName, QtCore.QVariant.Double, "real", 19, 0))
+        fields.append(QgsField("pu_status", QtCore.QVariant.Double, "real", 19, 0))
         fields.append(QgsField("bnd_cost", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("area", QtCore.QVariant.Double, "real", 19, 10))
         fields.append(QgsField("perimeter", QtCore.QVariant.Double, "real", 19, 10))
@@ -1279,6 +1279,10 @@ class qmtSpatial:
                     lastPct = progPct
         except Exception as inst:
             QgsMessageLog.logMessage('Error: %s' % str(inst))
+        # close gdal access to files
+        gds = None
+        cds = None
+        # remove as needed
         os.remove(trg)
         if delSource == True:
             os.remove(trs)  

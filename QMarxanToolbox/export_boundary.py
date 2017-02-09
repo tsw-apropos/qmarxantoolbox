@@ -245,7 +245,6 @@ class ExportBoundary(GeoAlgorithm):
         # change to output directory
         path,fname = os.path.split(self.outFName)
         os.chdir(path)
-        nl = os.linesep
         # create temporary file names 
         tempsegfile = 'tempsegfile_%s.txt' % os.getpid()
         tempsortedfile = 'tempsortedfile_%s.txt' % os.getpid()
@@ -286,7 +285,7 @@ class ExportBoundary(GeoAlgorithm):
                 progress.setPercentage(progPct)
                 lastPct = progPct
             attr = feat.attributes()
-            pid = str(attr[puIdx])
+            pid = int(attr[puIdx])
             if fldIdx != -1:
                 cost = str(attr[fldIdx])
             else:
@@ -314,7 +313,7 @@ class ExportBoundary(GeoAlgorithm):
                             str(round(float(prevPoint[0]),self.tol)) + '|' + \
                             str(round(float(prevPoint[1]),self.tol))
                     if segLen > 0:
-                        outLine = '%s,%d,%f,%f %s' %  (skey, int(pid), float(cost), segLen, nl )
+                        outLine = '%s,%d,%f,%f\n' %  (skey, int(pid), float(cost), segLen)
                         tsf.write(outLine)
                         lineCount += 1
                     prevPoint = i
@@ -401,22 +400,22 @@ class ExportBoundary(GeoAlgorithm):
                         if topoErrorCount == 0:
                             el = open(errorlog, 'w')
                             outline = 'There should never be more than 2 overlapping ' + \
-                                'line segments. ' + nl + \
+                                'line segments. \n' + \
                                 'Below are listed cases where more than 2 have ' + \
-                                'been identified. ' +  nl + 'These should all be ' + \
-                                'corrected before using the boundary file' + nl + \
-                                '-------' + nl
+                                'been identified. \n' + 'These should all be ' + \
+                                'corrected before using the boundary file\n' + \
+                                '-------\n' 
                             el.write(outline)
-                        outline = 'Line segments defined as %s may be topologically invalid.%s' % (str(pl[0]),nl)
-                        outline = outline + 'Area ids %s appear to overlap.%s--%s' % (pids,nl,nl) 
+                        outline = 'Line segments defined as %s may be topologically invalid.\n' % (str(pl[0]))
+                        outline = outline + 'Area ids %s appear to overlap.\n--\n' % (pids) 
                         el.write(outline)
                         topoErrorCount += 1
                     else:
                         # no error proceed
                         if int(pl[1]) < int(cl[1]):
-                            taf.write('%020d,%020d,%s %s' % (int(pl[1]),int(cl[1]),fCost,nl))
+                            taf.write('%020d,%020d,%s\n' % (int(pl[1]),int(cl[1]),fCost))
                         else:
-                            taf.write('%020d,%020d,%s %s' % (int(cl[1]),int(pl[1]),fCost,nl))
+                            taf.write('%020d,%020d,%s\n' % (int(cl[1]),int(pl[1]),fCost))
                         adjFileLen += 1
                 elif type(pl) == list:
                     fCost = 1
@@ -426,7 +425,7 @@ class ExportBoundary(GeoAlgorithm):
                         fCost = str(float(pl[3]) * float(pl[2]))
                     else:
                         fCost = str(pl[3])
-                    taf.write('%020d,%020d,%s %s' % (int(pl[1]),int(pl[1]),fCost,nl))
+                    taf.write('%020d,%020d,%s\n' % (int(pl[1]),int(pl[1]),fCost))
             pl = line.rstrip().split(',')
         tsf.close()
         taf.close()
@@ -442,7 +441,7 @@ class ExportBoundary(GeoAlgorithm):
         #
         saf = open(tempsortedadjfile,'r')
         faf = open(self.outFName,'w')
-        faf.write("id1\tid2\tboundary%s" % nl)
+        faf.write("id1\tid2\tboundary\n")
         done = False
         pl = ''
         x = 0
@@ -475,7 +474,7 @@ class ExportBoundary(GeoAlgorithm):
                     else:
                         boundStr = str(round(float(bound),self.tol))
                     if float(bound) > 0.0:
-                        faf.write('%d\t%d\t%s%s' % (int(pl[0]),int(pl[1]),boundStr,nl))
+                        faf.write('%d\t%d\t%s\n' % (int(pl[0]),int(pl[1]),boundStr))
                     pl = line.rstrip().split(',')
             else:
                 pl = cl
