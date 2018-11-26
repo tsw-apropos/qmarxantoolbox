@@ -1,0 +1,39 @@
+# This file contains metadata for your plugin. Since 
+# version 2.0 of QGIS this is the proper way to supply 
+# information about a plugin. The old method of 
+# embedding metadata in __init__.py will 
+# is no longer supported since version 2.0.
+
+# This file should be included when you package your plugin.
+# Mandatory items:
+
+[general]
+name=QMarxan Toolbox
+qgisMinimumVersion=2.14
+description=Marxan Processing tools for QGIS
+version=0.3.4
+author=Apropos Information Systems Inc
+email=tsw@aproposinfosytems.com
+about=The QMarxan Toolbox is a replacment for QMarxanZ. The QMarxan Toolbox provides tools within the QGIS processing framework to prepare data and create input files for Marxan. 
+
+tracker=https://github.com/tsw-apropos/qmarxantoolbox/issues
+repository=https://github.com/tsw-apropos/qmarxantoolbox
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+changelog=Fix to raster calculation under windows.
+
+# Tags are comma separated with spaces allowed
+tags=Marxan
+
+homepage=https://www.aproposinfosystems.com/solutions/qmarxan-toolbox/
+category=Analysis
+icon=qm_icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
