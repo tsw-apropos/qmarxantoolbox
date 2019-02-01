@@ -10,11 +10,11 @@
 name=QMarxan Toolbox
 qgisMinimumVersion=3.0
 description=Create input files for Marxan
-version=1.1
+version=1.1.1
 author=Apropos Information Systems Inc
 email=tsw.web@gmail.com
 
-about=The QMarxan Toolbox provides a toolbox based approach to creating inputs for and examining the results from Marxan analyses. The new release fore QGIS 3.x has the same work flow and parameter naming as the ArcMarxan Toolbox (version 1.1).
+about=The QMarxan Toolbox provides a toolbox based approach to creating inputs for and examining the results from Marxan analyses. The new release for QGIS 3.x has the same work flow and parameter naming as the ArcMarxan Toolbox (version 1.1).
 
 tracker=https://github.com/tsw-apropos/qmarxantoolbox/issues
 repository=https://github.com/tsw-apropos/qmarxantoolbox/
@@ -23,7 +23,7 @@ repository=https://github.com/tsw-apropos/qmarxantoolbox/
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=A fix is included with 1.1.1 for the Single Value boundary method used when exporting the boundary file.
 
 # Tags are comma separated with spaces allowed
 tags=marxan
