@@ -10,7 +10,7 @@
 name=QMarxan Toolbox
 qgisMinimumVersion=3.0
 description=Create input files for Marxan
-version=2.0.1
+version=2.0.3
 author=Apropos Information Systems Inc
 email=tsw.web@gmail.com
 
@@ -23,7 +23,7 @@ repository=https://github.com/tsw-apropos/qmarxantoolbox/
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Version 2.0.1 provides fixes in the SPF calibration script and has changes incorporated to support Marxan 3 when it is released later in 2020.
+changelog=Version 2.0.3 provides fixes challenges with Marxan 4 which sometimes writes binary data to output_log and caused running of Marxan within the plugin to crash.
 
 # Tags are comma separated with spaces allowed
 tags=marxan

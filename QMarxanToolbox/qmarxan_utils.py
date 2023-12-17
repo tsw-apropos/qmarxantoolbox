@@ -83,7 +83,7 @@ def runMarxanOnce(exeFile,workingDir,outDir,scenName,numReps,feedback):
     # look for log file to see if output directory is valid
     if os.path.exists(logFName):
         # read log to look for phrase indicating missing input files
-        f = open(logFName,'r')
+        f = open(logFName,'r',errors='ignore')
         logLines = f.readlines()
         f.close()
         InputsComplete = True
@@ -94,7 +94,7 @@ def runMarxanOnce(exeFile,workingDir,outDir,scenName,numReps,feedback):
         if InputsComplete:
             feedback.pushInfo('Marxan started')
             while currentRun < numReps and not abort:
-                f = open(logFName,'r')
+                f = open(logFName,'r',errors='ignore')
                 logLines = f.readlines()
                 f.close()
                 fileList = os.listdir(outDir)
@@ -120,7 +120,7 @@ def runMarxanOnce(exeFile,workingDir,outDir,scenName,numReps,feedback):
                         feedback.pushInfo('Marxan running')
                 if status == 'load' and not startNotified:
                     startNotified = True
-                    f = open(logFName,'r')
+                    f = open(logFName,'r',errors='ignore')
                     logLines = f.readlines()
                     f.close()
                     for line in logLines:
@@ -177,7 +177,7 @@ def runMarxanOnce(exeFile,workingDir,outDir,scenName,numReps,feedback):
         stdoutData, stderrData = proc.communicate(input=b'\n')
         if platform.system() == 'Windows':
             logFName = os.path.join(outDir,scenName+'_log.dat')
-            f = open(logFName,'r')
+            f = open(logFName,'r',errors='ignore')
             logLines = f.readlines()
             f.close()
         else:

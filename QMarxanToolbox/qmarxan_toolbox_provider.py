@@ -82,7 +82,7 @@ class QMarxanToolboxProvider(QgsProcessingProvider):
 
         This string should be short (e.g. "Lastools") and localised.
         """
-        return self.tr('QMarxan Toolbox (2.0.1)')
+        return self.tr('QMarxan Toolbox (2.0.3)')
 
     def longName(self):
         """
