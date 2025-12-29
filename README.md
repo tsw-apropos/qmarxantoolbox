@@ -3,6 +3,8 @@
 
 [Marxan](https://marxansolutions.org/) is one of the leading conservation tools in the world. Marxan is designed as a decision support tool which asks the question, "How can I meet these targets efficiently?". Marxan uses spatial data in a non-spatial environment to test many different solutions to find near-optimal solutions to the before stated question. The QMarxan Toolbox for QGIS 3 and above provides a series of tools to generate convert spatial data into a format that Marxan can understand and use. The QMarxan Toolbox also provides tools to assist in the calibration of your Marxan analysis.
 
+As of 2025-12-19, this project will no longer be actively maintained by the author; if you wish to make improvements to the project, please make a pull request or feel free to fork the project you would like to do so.
+
 ## Overview
 
 The QMarxan Toolbox is a QGIS plugin that provides a set of processing tools for QGIS 3.x for Marxan data preparation, export to Marxan, calibration and analysis of results. The underlying algorithms for the QMarxan Toolbox come from the now retired QMarxanZ project. The current version is 2.0.3. 
@@ -96,7 +98,7 @@ The input parameters are as follows:
  * Step size for SPF increases - This is the size of the stepwise increases of the SPF value between each time that Marxan is run.
  * Marxan project folder (with input.dat) - This is the Marxan project folder that contains the input.dat file and the input, output, pu and report folders.
 
-###Estimate BLM
+### Estimate BLM
 
 The Estimate BLM tool provides a relatively quick method to estimate a BLM value. The method involved is detailed in the Marxan Good Practices Handbook in Section 8.3.5. Please see the handbook for details on the theory. In practice this method runs Marxan three times and provides a range of BLM values that will be close to the range of BLM values which will result in the largest changes in results. This tool provides a quick and dirty way to get a reasonable BLM value, but the Graph BLM tool and the methods for using it are still preferred to get an authoritative result. 
 
