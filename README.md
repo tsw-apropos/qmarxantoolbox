@@ -31,18 +31,18 @@ The QMarxan Toolbox has the following work-flow design:
 The QMarxan Toolbox consists of nine tools in four groups. The groups and tools are organized as follows:
 
 1. Create Project
-  * Create Input File and Folders
+    * Create Input File and Folders
 2. Export Input Files
-  * Export Boundary File
-  * Export Feature Files
-  * Export Planning Unit File
+    * Export Boundary File
+    * Export Feature Files
+    * Export Planning Unit File
 3. Refine Results
-  * Calibrate SPF
-  * Estimate BLM
-  * Graph BLM
-  * Iteration Calibration
+    * Calibrate SPF
+    * Estimate BLM
+    * Graph BLM
+    * Iteration Calibration
 4. Report
-  * Report Feature for Selected Planning Units
+    * Report Feature for Selected Planning Units
 
 ### Create Input File and Folders
 
