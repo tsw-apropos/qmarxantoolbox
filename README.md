@@ -100,7 +100,7 @@ The input parameters are as follows:
 
 ### Estimate BLM
 
-The Estimate BLM tool provides a relatively quick method to estimate a BLM value. The method involved is detailed in the Marxan Good Practices Handbook in Section 8.3.5. Please see the handbook for details on the theory. In practice this method runs Marxan three times and provides a range of BLM values that will be close to the range of BLM values which will result in the largest changes in results. This tool provides a quick and dirty way to get a reasonable BLM value, but the Graph BLM tool and the methods for using it are still preferred to get an authoritative result. 
+The Estimate BLM tool provides a relatively quick method to estimate a BLM value. The method involved is detailed in the [Marxan Good Practices Handbook](https://marxansolutions.org/wp-content/uploads/2020/04/Marxan-Good-Practices-Handbook-v2-2013.pdf) in Section 8.3.5. Please see the handbook for details on the theory. In practice this method runs Marxan three times and provides a range of BLM values that will be close to the range of BLM values which will result in the largest changes in results. This tool provides a quick and dirty way to get a reasonable BLM value, but the Graph BLM tool and the methods for using it are still preferred to get an authoritative result. 
 
 Input parameters are as follows:
  * Marxan Executable File Name - The name and path to the executable Marxan file is selected here. On Windows, this is most commonly placed in the project folder itself.
@@ -117,7 +117,7 @@ Input parameters are as follows:
 
 ### Iteration Calibration
 
-The Iteration Calibration tool implements the method found in the Marxan Good Practices Handbook in Section 8.3.2. This involves testing a series of values and examining the costs as Cumulative Distribution Function (CDF) graphs. As the graphs move to the left, it means that the variance in the solutions has been reduced and more of the solutions are near the minimum solution. This tool provides CDF graphs for costs, boundary and Marxan score as well as a csv file containing a summary of those data as well as the raw values. By using the graphs and tabular results together users are able to assess the real impact of different SPF values. 
+The Iteration Calibration tool implements the method found in the [Marxan Good Practices Handbook](https://marxansolutions.org/wp-content/uploads/2020/04/Marxan-Good-Practices-Handbook-v2-2013.pdf) in Section 8.3.2. This involves testing a series of values and examining the costs as Cumulative Distribution Function (CDF) graphs. As the graphs move to the left, it means that the variance in the solutions has been reduced and more of the solutions are near the minimum solution. This tool provides CDF graphs for costs, boundary and Marxan score as well as a csv file containing a summary of those data as well as the raw values. By using the graphs and tabular results together users are able to assess the real impact of different SPF values. 
 
 Input parameters are as follows:
  * Marxan Executable File Name - The name and path to the executable Marxan file is selected here. On Windows, this is most commonly placed in the project folder itself.
