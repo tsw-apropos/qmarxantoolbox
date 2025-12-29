@@ -1,17 +1,17 @@
 # qmarxantoolbox
-##Marxan Processing tools for QGIS
+## Marxan Processing tools for QGIS
 
 [Marxan](https://marxansolutions.org/) is one of the leading conservation tools in the world. Marxan is designed as a decision support tool which asks the question, "How can I meet these targets efficiently?". Marxan uses spatial data in a non-spatial environment to test many different solutions to find near-optimal solutions to the before stated question. The QMarxan Toolbox for QGIS 3 and above provides a series of tools to generate convert spatial data into a format that Marxan can understand and use. The QMarxan Toolbox also provides tools to assist in the calibration of your Marxan analysis.
 
-##Overview
+## Overview
 
-The QMarxan Toolbox is a QGIS plugin that provides a set of processing tools for QGIS 3.x for Marxan data preparation, export to Marxan, calibration and analysis of results. The underlying algorithms for the QMarxan Toolbox come from the now retired QMarxanZ project. The current version is 2.0.1.
+The QMarxan Toolbox is a QGIS plugin that provides a set of processing tools for QGIS 3.x for Marxan data preparation, export to Marxan, calibration and analysis of results. The underlying algorithms for the QMarxan Toolbox come from the now retired QMarxanZ project. The current version is 2.0.3. 
 
 QMarxan can be used with Marxan 2.4.3 or with the new Marxan version 4.0.5. Marxan can be downloaded for Windows, Linux and MacOS computers here.
 
 This document is not however a substitute for Marxan training. For information on training see the Marxan Solutions website.
 
-##Use Overview
+## Use Overview
 
 The QMarxan Toolbox has the following work-flow design:
 1. With other tools create your planning unit file and make sure to add status and cost fields.
@@ -26,7 +26,7 @@ The QMarxan Toolbox has the following work-flow design:
 10. Calibrate the Iterations using the Iteration Calibration tool.
 11. Use the Report Features tool to assess the conservation feature compositions of groups of planning units as needed.
 
-##Tool Details
+## Tool Details
 
 The QMarxan Toolbox consists of nine tools in four groups. The groups and tools are organized as follows:
 
@@ -44,28 +44,27 @@ The QMarxan Toolbox consists of nine tools in four groups. The groups and tools 
 4. Report
   * Report Feature for Selected Planning Units
 
-###Create Input File and Folders
+### Create Input File and Folders
 
 This tool creates a folder structure with an input, output, pu and report folder and an input.dat file. The input.dat file is the basic control file for a Marxan project and the input and output folders are default names for the Marxan inputs and outputs respectively.
 
 The input value for this tool is the name of the folder you want to use for your Marxan project.
 
-###Export Boundary File
+### Export Boundary File
 
 The boundary file in Marxan provides information on what planning units are next to other planning units and the weight of the boundary relationship between them.
 
 Input values for this tool are:
+ * Planning unit layer - For a Marxan analysis you must create a planning unit layer which will divide the study area into planning units. Planning units are usually of regularly shaped areas and they must be numbered with a unique id. This is the correct layer to choose for this input value.
+ * Planning unit id field - The name of the field with the planning unit id is selected here.
+ * Boundary method - The boundary length between planning units can be set in multiple ways. If you have no specific concerns about wanting to impact how areas are selected except by their adjacency to other areas then the first option, using a single value for all planning units, is appropriate. If you want to use the actual length of the boundaries then use the measured option. If you want to use some weighted value of the measured length times a field value choose weighted. If you want to use a field value only choose the field option.
+ * Boundary treatment - Some Marxan practitioners suggests there is merit is excluding or assigning half values to planning unit boundaries at the perimeter of the planning area. This option enables this choice. Best empirical evidence suggests that using a consistent value on all boundaries gives the least biased result if all planning units are the same size.
+ * Boundary value - If you are using the Single Value method which assigns a single value to al boundaries enter that value into this field.
+ * Calculation field - If you are using the Weighted or Field methods, select your calculating field here.
+ * Calculation method - If you are using a weighted or field method, it is possible that the values from one PU's field will not match the values of the adjacent PU. You can choose three options of how to process these differences which are to use the mean, maximum or minimum.
+ * Marxan input folder - This folder is where the bound.dat file will be written. This file does not need to be edited after creation unless a new planning unit layer is created or the planning unit layer is altered.
 
-    Planning unit layer - For a Marxan analysis you must create a planning unit layer which will divide the study area into planning units. Planning units are usually of regularly shaped areas and they must be numbered with a unique id. This is the correct layer to choose for this input value.
-    Planning unit id field - The name of the field with the planning unit id is selected here.
-    Boundary method - The boundary length between planning units can be set in multiple ways. If you have no specific concerns about wanting to impact how areas are selected except by their adjacency to other areas then the first option, using a single value for all planning units, is appropriate. If you want to use the actual length of the boundaries then use the measured option. If you want to use some weighted value of the measured length times a field value choose weighted. If you want to use a field value only choose the field option.
-    Boundary treatment - Some Marxan practitioners suggests there is merit is excluding or assigning half values to planning unit boundaries at the perimeter of the planning area. This option enables this choice. Best empirical evidence suggests that using a consistent value on all boundaries gives the least biased result if all planning units are the same size.
-    Boundary value - If you are using the Single Value method which assigns a single value to al boundaries enter that value into this field.
-    Calculation field - If you are using the Weighted or Field methods, select your calculating field here.
-    Calculation method - If you are using a weighted or field method, it is possible that the values from one PU's field will not match the values of the adjacent PU. You can choose three options of how to process these differences which are to use the mean, maximum or minimum.
-    Marxan input folder - This folder is where the bound.dat file will be written. This file does not need to be edited after creation unless a new planning unit layer is created or the planning unit layer is altered.
-
-###Export Feature Files
+### Export Feature Files
 
 There are three files in Marxan that tell Marxan about your features of interest and their targets. These files are the spec.dat file, pusvsp.dat and puvsp_sporder.dat. This tool creates all three in a single step, with the understanding that you will need to manually edit the spec.dat file in a text editor or spreadsheet program to set target and species penalty factor values. For users unfamiliar with the puvsp_sporder.dat file, it has the same contents as the puvsp.dat file, but in species order and this saves processing time when running Marxan.
 
@@ -76,7 +75,7 @@ Input values for this tool are:
     Feature fields - Select fields for inclusion as features in your project by marking the check box beside them
     Marxan input folder - This folder is where the spec.dat, puvsp.dat and pusvsp_sporder.dat files will be written. The puvsp.data and pusvsp_sporder.dat describe how much of each feature exists in each planning unit. Although only the puvsp.dat file is required, creating both files speeds the initialization process for Marxan. These two files do not need to be edited after creation unless features are added, removed or recalculated. The spec.dat file will need to be altered after creation to set targets using the prop, target or targetocc fields. The prop field is a proportional target field with values ranging from 0 to 1. The target field is used to set targets in the units of the measured feature. The targetocc field allows users to set targets based on the number of occurrences of a feature. Please note that only one file can be used for each feature. Please refer to the Marxan user documentation for more details.
 
-###Export Planning Unit File
+### Export Planning Unit File
 
 The planning units file describes what planning units exist, their status and the cost associated with selecting them.
 
@@ -88,7 +87,7 @@ Input values for this tool are:
     Planning unit status field - The name of the field with the planning unit status values for each planning unit is selected here.
     Marxan input folder - This folder is where the pu.dat file will be written.
 
-###Calibrate SPF
+### Calibrate SPF
 
 This tool provides the means to adjust SPF values to ensure that all targets are met. Note that if you are using version 4.0.5 of Marxan, you need to set the VERBOSITY value to 4 or higher in the input.dat file so that the MarOptTotalAreas.csv file gets created. The input parameters are as follows:
 
@@ -105,7 +104,7 @@ The Estimate BLM tool provides a relatively quick method to estimate a BLM value
     Marxan Executable File Name - The name and path to the executable Marxan file is selected here. On Windows, this is most commonly placed in the project folder itself.
     Marxan project folder (with input.dat) - This is the Marxan project folder that contains the input.dat file and the input, output, pu and report folders.
 
-###Graph BLM
+### Graph BLM
 
 The Graph BLM tool provides a methodical means to evaluate BLM values for a Marxan problem. The details of this method are detailed in the Marxan User Manual. The method involve testing a series of values and then producing a graph of cost vs boundary length, to allow the user to select the balance point between these two competing concerns. This tool also produces a series of histograms and csv files for each BLM value to allow the user to see how the increase in BLM values effects target achievement for features. In general as the BLM values increase some features become over-represented in the final solutions as a result of extra planning units being added to the solution to create clumped solutions. This histograms and tables are extra information to assist the analyst in assessing an appropriate BLM value and the implications of that choice. In some cases after an BLM value is selected it may be worthwhile to reset SPF values and conduct a second SPF calibration. Input parameters are as follows:
 
@@ -113,7 +112,7 @@ The Graph BLM tool provides a methodical means to evaluate BLM values for a Marx
     BLM Value List - This is a comma separated list of BLM values to be tested. The system provides a default value and users are encouraged to adjust or replace these values according to their needs.
     Marxan project folder (with input.dat) - This is the Marxan project folder that contains the input.dat file and the input, output, pu and report folders.
 
-###Iteration Calibration
+### Iteration Calibration
 
 The Iteration Calibration tool implements the method found in the Marxan Good Practices Handbook in Section 8.3.2. This involves testing a series of values and examining the costs as Cumulative Distribution Function (CDF) graphs. As the graphs move to the left, it means that the variance in the solutions has been reduced and more of the solutions are near the minimum solution. This tool provides CDF graphs for costs, boundary and Marxan score as well as a csv file containing a summary of those data as well as the raw values. By using the graphs and tabular results together users are able to assess the real impact of different SPF values. Input parameters are as follows:
 
@@ -121,7 +120,7 @@ The Iteration Calibration tool implements the method found in the Marxan Good Pr
     Iteration List - This is a comma separated list of iteration values to be tested. The system provides a default value and users are encouraged to adjust or replace these values according to their needs.
     Marxan project folder (with input.dat) - This is the Marxan project folder that contains the input.dat file and the input, output, pu and report folders.
 
-###Report Features for Selected Planning Units
+### Report Features for Selected Planning Units
 
 This tool lets you look at the feature contents of arbitrary selections of planning units. To use this tool select the planning units of interest using QGIS and then open this tool and run it.
 
