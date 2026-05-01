@@ -7,9 +7,9 @@ As of 2025-12-19, this project will no longer be actively maintained or supporte
 
 ## Overview
 
-The QMarxan Toolbox is a QGIS plugin that provides a set of processing tools for QGIS 3.x for Marxan data preparation, export to Marxan, calibration and analysis of results. The underlying algorithms for the QMarxan Toolbox come from the now retired QMarxanZ project. The current version is 2.0.3. 
+The QMarxan Toolbox is a QGIS plugin that provides a set of processing tools for QGIS 3.x for Marxan data preparation, export to Marxan, calibration and analysis of results. The underlying algorithms for the QMarxan Toolbox come from the now retired QMarxanZ project. The current version is 2.0.4. 
 
-QMarxan can be used with Marxan 2.4.3 or with the new Marxan version 4.0.5. Marxan can be downloaded for Windows, Linux and MacOS computers here.
+QMarxan can be used with Marxan 2.4.3 or with the new Marxan version 4.0.6. Marxan can be downloaded for Windows, Linux and MacOS computers here.
 
 This document is not however a substitute for Marxan training. For information on training see the Marxan Solutions website.
 
@@ -74,6 +74,9 @@ Input values for this tool are:
  * Planning unit layer - The planning unit layer or table with all the calculated values for each feature is selected here. This might be a shape file or a table or a GeoPackage or spatial database layer. What is important is that all the calculated values are available in a single file and that it has a planning unit id field.
  * Planning unit id field - The name of the field with the planning unit id is selected here.
  * Feature fields - Select fields for inclusion as features in your project by marking the check box beside them
+ * Initial Type Targets - Select between setting initial targets based on Proportion, Target Values or Target Occurences for all species in the spec.dat file
+ * Initial Target Value - The value to be applied to the Initial Target Type column in the spec.dat file.
+ * Initial SPF Value - The initial SPF value for all species in the spec.dat fie.
  * Marxan input folder - This folder is where the spec.dat, puvsp.dat and pusvsp_sporder.dat files will be written. The puvsp.data and pusvsp_sporder.dat describe how much of each feature exists in each planning unit. Although only the puvsp.dat file is required, creating both files speeds the initialization process for Marxan. These two files do not need to be edited after creation unless features are added, removed or recalculated. The spec.dat file will need to be altered after creation to set targets using the prop, target or targetocc fields. The prop field is a proportional target field with values ranging from 0 to 1. The target field is used to set targets in the units of the measured feature. The targetocc field allows users to set targets based on the number of occurrences of a feature. Please note that only one file can be used for each feature. Please refer to the Marxan user documentation for more details.
 
 ### Export Planning Unit File
