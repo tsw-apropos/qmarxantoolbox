@@ -76,7 +76,7 @@ Input values for this tool are:
  * Feature fields - Select fields for inclusion as features in your project by marking the check box beside them
  * Initial Type Targets - Select between setting initial targets based on Proportion, Target Values or Target Occurences for all species in the spec.dat file
  * Initial Target Value - The value to be applied to the Initial Target Type column in the spec.dat file.
- * Initial SPF Value - The initial SPF value for all species in the spec.dat fie.
+ * Initial SPF Value - The initial SPF value for all species in the spec.dat file.
  * Marxan input folder - This folder is where the spec.dat, puvsp.dat and pusvsp_sporder.dat files will be written. The puvsp.data and pusvsp_sporder.dat describe how much of each feature exists in each planning unit. Although only the puvsp.dat file is required, creating both files speeds the initialization process for Marxan. These two files do not need to be edited after creation unless features are added, removed or recalculated. The spec.dat file will need to be altered after creation to set targets using the prop, target or targetocc fields. The prop field is a proportional target field with values ranging from 0 to 1. The target field is used to set targets in the units of the measured feature. The targetocc field allows users to set targets based on the number of occurrences of a feature. Please note that only one file can be used for each feature. Please refer to the Marxan user documentation for more details.
 
 ### Export Planning Unit File
